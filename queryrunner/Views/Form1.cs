@@ -199,6 +199,7 @@ namespace queryrunner.Views
                 btnCopyFiles.Enabled = false;
                 btnexecute.Enabled = false;
                 btnCancel.Visible = true;
+                btnCancel.Enabled = true;
                 bgWorkerCopy.RunWorkerAsync();
             }
         }
