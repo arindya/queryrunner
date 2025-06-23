@@ -29,16 +29,27 @@
 - Install Visual Studio 2022 atau lebih baru.
 - Pastikan sudah menginstall NuGet package berikut:
   - `Oracle.ManagedDataAccess`
-  - `ClosedXML` atau `EPPlus` (pilih salah satu untuk ekspor Excel)
+  - `ClosedXML` atau `EPPlus` (pilih salah satu untuk ekspor Excel) [belum diupdate ke code]
 
 ### 2. **Konfigurasi Koneksi**
 - Jalankan aplikasi.
 - Masukkan:
   - Oracle User ID
   - Oracle Password
-  - Host (contoh: `10.111.1.111`)
+  - Host (contoh: `10.101.1.011`)
   - Port (default: `1521`)
-  - Service Name (contoh: `xx`)
-- Klik tombol **"Simpan Koneksi"**
+  - Service Name (contoh: `inadb`)
+- save konfigurasi ketika aplikasi di close(bisa ditambahkan save button kalo mau custom)
 
-### 3. **Menjalan**
+### 3. **Menjalankan Query**
+- Masukkan SQL di textbox.
+- Klik **"Execute"**
+- Hasil akan muncul di tabel di bawahnya.
+
+### 4. **Ekspor ke Excel**
+- Klik **"Export to Excel"**
+- File akan disimpan di folder yang ditentukan (default: Desktop).
+
+---
+
+## 📁 Struktur Folder (Opsional)
