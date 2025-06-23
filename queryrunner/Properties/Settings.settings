@@ -18,13 +18,13 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="OracleHost" Type="System.String" Scope="User">
-      <Value Profile="(Default)">inametadb</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="OraclePort" Type="System.String" Scope="User">
       <Value Profile="(Default)">1521</Value>
     </Setting>
     <Setting Name="OracleService" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">inametadb</Value>
     </Setting>
   </Settings>
 </SettingsFile>

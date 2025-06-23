@@ -85,7 +85,7 @@ namespace queryrunner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("inametadb")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string OracleHost {
             get {
                 return ((string)(this["OracleHost"]));
@@ -109,7 +109,7 @@ namespace queryrunner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("inametadb")]
         public string OracleService {
             get {
                 return ((string)(this["OracleService"]));

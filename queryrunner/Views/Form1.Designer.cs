@@ -1,4 +1,4 @@
-﻿namespace queryrunner
+﻿namespace queryrunner.Views
 {
     partial class Form1
     {
@@ -42,6 +42,22 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.getquery = new System.Windows.Forms.RichTextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnTestKoneksi = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtService = new System.Windows.Forms.TextBox();
+            this.txtPort = new System.Windows.Forms.TextBox();
+            this.txtHost = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.txtUserId = new System.Windows.Forms.TextBox();
             this.getcopyto = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -53,21 +69,6 @@
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripBtnOpenRep = new System.Windows.Forms.ToolStripMenuItem();
             this.bgWorkerQuery = new System.ComponentModel.BackgroundWorker();
-            this.txtUserId = new System.Windows.Forms.TextBox();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.txtHost = new System.Windows.Forms.TextBox();
-            this.txtPort = new System.Windows.Forms.TextBox();
-            this.txtService = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -214,6 +215,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.btnTestKoneksi);
             this.tabPage2.Controls.Add(this.label13);
             this.tabPage2.Controls.Add(this.label12);
             this.tabPage2.Controls.Add(this.label11);
@@ -242,6 +244,150 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Setting";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btnTestKoneksi
+            // 
+            this.btnTestKoneksi.Location = new System.Drawing.Point(281, 268);
+            this.btnTestKoneksi.Name = "btnTestKoneksi";
+            this.btnTestKoneksi.Size = new System.Drawing.Size(75, 23);
+            this.btnTestKoneksi.TabIndex = 22;
+            this.btnTestKoneksi.Text = "btnTestKoneksi  ";
+            this.btnTestKoneksi.UseVisualStyleBackColor = true;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
+            this.label13.Location = new System.Drawing.Point(152, 219);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(14, 21);
+            this.label13.TabIndex = 21;
+            this.label13.Text = ":";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
+            this.label12.Location = new System.Drawing.Point(152, 185);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(14, 21);
+            this.label12.TabIndex = 20;
+            this.label12.Text = ":";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
+            this.label11.Location = new System.Drawing.Point(152, 151);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(14, 21);
+            this.label11.TabIndex = 19;
+            this.label11.Text = ":";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
+            this.label10.Location = new System.Drawing.Point(152, 124);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(14, 21);
+            this.label10.TabIndex = 18;
+            this.label10.Text = ":";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
+            this.label9.Location = new System.Drawing.Point(152, 83);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(14, 21);
+            this.label9.TabIndex = 17;
+            this.label9.Text = ":";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
+            this.label8.Location = new System.Drawing.Point(19, 226);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(64, 21);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "Service";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
+            this.label7.Location = new System.Drawing.Point(19, 192);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(50, 21);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "PORT";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
+            this.label6.Location = new System.Drawing.Point(19, 158);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(45, 21);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "Host";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
+            this.label5.Location = new System.Drawing.Point(19, 124);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(79, 21);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Password";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
+            this.label4.Location = new System.Drawing.Point(19, 90);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(105, 21);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "OracleUserId";
+            // 
+            // txtService
+            // 
+            this.txtService.Location = new System.Drawing.Point(172, 219);
+            this.txtService.Name = "txtService";
+            this.txtService.Size = new System.Drawing.Size(185, 28);
+            this.txtService.TabIndex = 11;
+            // 
+            // txtPort
+            // 
+            this.txtPort.Location = new System.Drawing.Point(172, 185);
+            this.txtPort.Name = "txtPort";
+            this.txtPort.Size = new System.Drawing.Size(185, 28);
+            this.txtPort.TabIndex = 10;
+            // 
+            // txtHost
+            // 
+            this.txtHost.Location = new System.Drawing.Point(172, 151);
+            this.txtHost.Name = "txtHost";
+            this.txtHost.Size = new System.Drawing.Size(185, 28);
+            this.txtHost.TabIndex = 9;
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(172, 117);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(185, 28);
+            this.txtPassword.TabIndex = 8;
+            // 
+            // txtUserId
+            // 
+            this.txtUserId.Location = new System.Drawing.Point(172, 83);
+            this.txtUserId.Name = "txtUserId";
+            this.txtUserId.Size = new System.Drawing.Size(185, 28);
+            this.txtUserId.TabIndex = 7;
             // 
             // getcopyto
             // 
@@ -322,146 +468,11 @@
             this.toolStripBtnOpenRep.Name = "toolStripBtnOpenRep";
             this.toolStripBtnOpenRep.Size = new System.Drawing.Size(129, 22);
             this.toolStripBtnOpenRep.Text = "Open here";
-            this.toolStripBtnOpenRep.Click += new System.EventHandler(this.toolStripBtnOpenRep_Click_1);
+            this.toolStripBtnOpenRep.Click += new System.EventHandler(this.toolStripBtnOpenReppler_Click);
             // 
             // bgWorkerQuery
             // 
             this.bgWorkerQuery.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerQuery_DoWork);
-            // 
-            // txtUserId
-            // 
-            this.txtUserId.Location = new System.Drawing.Point(172, 83);
-            this.txtUserId.Name = "txtUserId";
-            this.txtUserId.Size = new System.Drawing.Size(185, 28);
-            this.txtUserId.TabIndex = 7;
-            // 
-            // txtPassword
-            // 
-            this.txtPassword.Location = new System.Drawing.Point(172, 117);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(185, 28);
-            this.txtPassword.TabIndex = 8;
-            // 
-            // txtHost
-            // 
-            this.txtHost.Location = new System.Drawing.Point(172, 151);
-            this.txtHost.Name = "txtHost";
-            this.txtHost.Size = new System.Drawing.Size(185, 28);
-            this.txtHost.TabIndex = 9;
-            // 
-            // txtPort
-            // 
-            this.txtPort.Location = new System.Drawing.Point(172, 185);
-            this.txtPort.Name = "txtPort";
-            this.txtPort.Size = new System.Drawing.Size(185, 28);
-            this.txtPort.TabIndex = 10;
-            // 
-            // txtService
-            // 
-            this.txtService.Location = new System.Drawing.Point(172, 219);
-            this.txtService.Name = "txtService";
-            this.txtService.Size = new System.Drawing.Size(185, 28);
-            this.txtService.TabIndex = 11;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
-            this.label4.Location = new System.Drawing.Point(19, 90);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(105, 21);
-            this.label4.TabIndex = 12;
-            this.label4.Text = "OracleUserId";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
-            this.label5.Location = new System.Drawing.Point(19, 124);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(79, 21);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "Password";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
-            this.label6.Location = new System.Drawing.Point(19, 158);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(45, 21);
-            this.label6.TabIndex = 14;
-            this.label6.Text = "Host";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
-            this.label7.Location = new System.Drawing.Point(19, 192);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(50, 21);
-            this.label7.TabIndex = 15;
-            this.label7.Text = "PORT";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
-            this.label8.Location = new System.Drawing.Point(19, 226);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(64, 21);
-            this.label8.TabIndex = 16;
-            this.label8.Text = "Service";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
-            this.label9.Location = new System.Drawing.Point(152, 83);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(14, 21);
-            this.label9.TabIndex = 17;
-            this.label9.Text = ":";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
-            this.label10.Location = new System.Drawing.Point(152, 124);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(14, 21);
-            this.label10.TabIndex = 18;
-            this.label10.Text = ":";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
-            this.label11.Location = new System.Drawing.Point(152, 151);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(14, 21);
-            this.label11.TabIndex = 19;
-            this.label11.Text = ":";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
-            this.label12.Location = new System.Drawing.Point(152, 185);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(14, 21);
-            this.label12.TabIndex = 20;
-            this.label12.Text = ":";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
-            this.label13.Location = new System.Drawing.Point(152, 219);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(14, 21);
-            this.label13.TabIndex = 21;
-            this.label13.Text = ":";
             // 
             // Form1
             // 
@@ -529,6 +540,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button btnTestKoneksi;
     }
 }
 
