@@ -141,6 +141,9 @@ namespace queryrunner.Views
                 if (string.IsNullOrWhiteSpace(query))
                 {
                     MessageBox.Show("Query kosong.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    btnexecute.Enabled = true;
+                    btnCancel.Enabled = false;
+                    progressBar1.Visible = false;
                     return;
                 }
 
