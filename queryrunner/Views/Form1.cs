@@ -150,7 +150,16 @@ namespace queryrunner.Views
                     "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (confirm == DialogResult.Yes && !bgWorkerQuery.IsBusy)
+                {
                     bgWorkerQuery.RunWorkerAsync();
+                }
+                else
+                {
+                    // Jika user pilih "No", tombol dieksekusi diaktifkan lagi
+                    btnexecute.Enabled = true;
+                    btnCancel.Enabled = false;
+                    progressBar1.Visible = false;
+                }
             }
             catch (Exception ex)
             {
