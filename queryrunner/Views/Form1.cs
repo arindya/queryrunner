@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Windows.Forms;
+using ClosedXML.Excel;
 
 namespace queryrunner.Views
 {
@@ -49,7 +50,7 @@ namespace queryrunner.Views
         private void Form1_Load(object sender, EventArgs e)
         {
             // Inisialisasi opsi query mode
-            cbQueryMode.Items.AddRange(new string[] { "Query", "HKP", "WHP Otomatis" });
+            cbQueryMode.Items.AddRange(new string[] { "Query", "HKP", "WHP Otomatis", "WELL LOG", "WELL FILE" });
             cbQueryMode.SelectedIndex = 0;
             cbQueryMode.SelectedIndexChanged += cbQueryMode_SelectedIndexChanged;
 
@@ -61,13 +62,28 @@ namespace queryrunner.Views
             cbWhereClause.DropDownStyle = ComboBoxStyle.DropDown;
             cbWhereClause.SelectedIndex = 0;
             cbWhereClause.SelectedIndexChanged += cbWhereClause_SelectedIndexChanged;
-
             // Tampilkan hanya saat WHP Otomatis
             cbWhereClause.Visible = false;
             txtWhereValue.Visible = false;
+            //Inisiasi clause
+            boxclause.Items.AddRange(new string[] {
+               "Null", "WF LIKE", "WF IN"
+            });
+            boxclause.SelectedIndexChanged += txtclause_SelectedIndexChanged;
+            //Tampilan hanya saat wellfile
+            boxclause.Visible = false;
+            txtclause.Visible = false;
+            // Tambahkan ini untuk sinkronisasi query manual
+            getquery.TextChanged += (s, ex) =>
+            {
+                if (cbQueryMode.SelectedItem?.ToString() == "Query")
+                    QueryController.SetManualQuery(getquery.Text);
+            };
 
             // Update query otomatis jika isian berubah
             txtWhereValue.TextChanged += (s, ev) => UpdateQueryIfAuto();
+            //Update query juga boy
+            txtclause.TextChanged += (s,ev) => UpdateQueryIfAuto();
 
             // Pastikan default value langsung muncul (SPA%)
             cbWhereClause_SelectedIndexChanged(cbWhereClause, EventArgs.Empty);
@@ -86,15 +102,26 @@ namespace queryrunner.Views
         }
 
         // Perbarui query jika mode WHP aktif
+        // Perbarui query otomatis jika isian berubah
         private void UpdateQueryIfAuto()
         {
-            if (cbQueryMode.SelectedItem.ToString() == "WHP Otomatis")
-            {
-                QueryController.GenerateWHPQuery(BuildWhereClause());
-                getquery.Text = QueryController.GetCurrentQuery();
-            }
-        }
+            string whereClause = QueryBuilder.BuildWhereClause(cbWhereClause.Text, txtWhereValue.Text, cbQueryMode.Text);
 
+            if (cbQueryMode.SelectedItem?.ToString() == "WHP Otomatis")
+            {
+                QueryController.GenerateWHPQuery(whereClause);
+            }
+            else if (cbQueryMode.SelectedItem?.ToString() == "WELL LOG")
+            {
+                QueryController.GenerateWELLLOGQuery(whereClause, cbWhereClause.Text);
+            }
+            else if (cbQueryMode.SelectedItem?.ToString() == "WELL FILE")
+            {
+                QueryController.GenerateWELLFILE(whereClause, boxclause.Text, txtclause.Text);
+            }
+
+            getquery.Text = QueryController.GetCurrentQuery();
+        }
         // Simpan setting saat form ditutup
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -114,16 +141,23 @@ namespace queryrunner.Views
         {
             string selected = cbQueryMode.Text;
             getquery.ReadOnly = selected != "Query" && selected != "HKP";
-            cbWhereClause.Visible = selected == "WHP Otomatis";
-            txtWhereValue.Visible = selected == "WHP Otomatis";
+            cbWhereClause.Visible = selected == "WHP Otomatis" || selected == "WELL LOG" || selected == "WELL FILE";
+            txtWhereValue.Visible = selected == "WHP Otomatis" || selected == "WELL LOG" || selected == "WELL FILE";
+            boxclause.Visible = selected == "WELL FILE";
+            txtclause.Visible = selected == "WELL FILE";
+            string whereClause = QueryBuilder.BuildWhereClause(cbWhereClause.Text, txtWhereValue.Text, cbQueryMode.Text);
+
 
             if (selected == "Query")
                 QueryController.SetManualQuery(getquery.Text);
             else if (selected == "HKP")
                 QueryController.GenerateHKPQuery();
             else if (selected == "WHP Otomatis")
-                QueryController.GenerateWHPQuery(BuildWhereClause());
-
+                QueryController.GenerateWHPQuery(whereClause);
+            else if (selected == "WELL LOG")
+                QueryController.GenerateWELLLOGQuery(whereClause, cbWhereClause.Text);
+            else if (selected == "WELL FILE")
+                QueryController.GenerateWELLFILE(whereClause, boxclause.Text, txtclause.Text);
             getquery.Text = QueryController.GetCurrentQuery();
         }
 
@@ -138,31 +172,45 @@ namespace queryrunner.Views
             try
             {
                 string query = QueryController.GetCurrentQuery();
-                if (string.IsNullOrWhiteSpace(query))
-                {
-                    MessageBox.Show("Query kosong.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    btnexecute.Enabled = true;
-                    btnCancel.Enabled = false;
-                    progressBar1.Visible = false;
-                    return;
-                }
-
                 int rowCount = QueryController.GetRowCount();
-                DialogResult confirm = MessageBox.Show(
-                    $"Query akan dijalankan.\nJumlah data: {rowCount}\n\nLanjutkan?",
-                    "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                using (var conn = OracleService.Connect())
+                {
+                    if (conn.State == System.Data.ConnectionState.Open)
+                    {
+                        if (string.IsNullOrWhiteSpace(query))
+                        {
+                            MessageBox.Show("Query kosong.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            btnexecute.Enabled = true;
+                            btnCancel.Enabled = false;
+                            progressBar1.Visible = false;
+                            return;
+                        }
 
-                if (confirm == DialogResult.Yes && !bgWorkerQuery.IsBusy)
-                {
-                    bgWorkerQuery.RunWorkerAsync();
-                }
-                else
-                {
-                    // Jika user pilih "No", tombol dieksekusi diaktifkan lagi
-                    btnexecute.Enabled = true;
-                    btnCancel.Enabled = false;
-                    progressBar1.Visible = false;
-                }
+
+                        DialogResult confirm = MessageBox.Show(
+                            $"Query akan dijalankan.\nJumlah data: {rowCount}\n\nLanjutkan?",
+                            "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                        if (confirm == DialogResult.Yes && !bgWorkerQuery.IsBusy)
+                        {
+                            bgWorkerQuery.RunWorkerAsync();
+                        }
+                        else
+                        {
+                            // Jika user pilih "No", tombol dieksekusi diaktifkan lagi
+                            btnexecute.Enabled = true;
+                            btnCancel.Enabled = false;
+                            progressBar1.Visible = false;
+                        }
+                    }
+                    //MessageBox.Show("✅ Koneksi berhasil!", "Koneksi Oracle", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                    {
+                        MessageBox.Show("❌ Gagal membuka koneksi.", "Koneksi Oracle", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                        
+                }             
+                
             }
             catch (Exception ex)
             {
@@ -336,25 +384,39 @@ namespace queryrunner.Views
             UpdateQueryIfAuto();
         }
 
-        // Fungsi untuk membangun where clause SQL
-        private string BuildWhereClause()
+        private void txtclause_SelectedIndexChanged(object sender,EventArgs e)
         {
-            string val = txtWhereValue.Text.Trim();
-            switch (cbWhereClause.Text)
+            string selected = boxclause.SelectedItem.ToString();
+            switch (selected)
             {
-                case "Well Name Like": return $"well_name LIKE '{val}'";
-                case "Struc Name =": return $"lookup.get_structure_name(well_name) = '{val}'";
-                case "Struc In Asset": return $"well_name IN (SELECT well_name FROM well WHERE structure_s IN (SELECT structure_s FROM structure WHERE aset_id IN {val}))";
-                case "File Name Like": return $"(WHP_DOC_FILE_NAME LIKE '{val}' OR WHP_WS_FILE_NAME LIKE '{val}')";
-                case "Well Name In": return $"well_name IN {val}";
-                case "Struc Name In": return $"lookup.get_structure_name(well_name) IN {val}";
-                default: return "1=1";
+                case "Null":
+                    txtclause.Text = "";
+                    break;
+                case "WF LIKE":
+                    txtclause.Text = "B%";
+                    break;   
+                case "WF IN":
+                    txtclause.Text = "('A1','B1')";
+                    break;
+                default:
+                    txtWhereValue.Text = "";
+                    break;
             }
+            UpdateQueryIfAuto();
         }
 
         // Tombol test koneksi Oracle
         private void btnTestKoneksi_Click(object sender, EventArgs e)
         {
+            Properties.Settings.Default.query = getquery.Text;
+            Properties.Settings.Default.path = getpath.Text;
+            Properties.Settings.Default.pathcopyto = getcopyto.Text;
+            Properties.Settings.Default.OracleUserId = txtUserId.Text;
+            Properties.Settings.Default.OraclePassword = txtPassword.Text;
+            Properties.Settings.Default.OracleHost = txtHost.Text;
+            Properties.Settings.Default.OraclePort = txtPort.Text;
+            Properties.Settings.Default.OracleService = txtService.Text;
+            Properties.Settings.Default.Save();
             try
             {
                 using (var conn = OracleService.Connect())
@@ -368,6 +430,37 @@ namespace queryrunner.Views
             catch (Exception ex)
             {
                 MessageBox.Show("❌ Gagal koneksi:\n" + ex.Message, "Koneksi Oracle", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnExportExcel_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.DataSource is DataTable dt && dt.Rows.Count > 0)
+            {
+                if (dt.Columns.Contains("status"))
+                    dt.Columns.Remove("status");
+
+                if (dt.Columns.Contains("Statuspath"))
+                    dt.Columns.Remove("Statuspath");
+                using (SaveFileDialog sfd = new SaveFileDialog())
+                {
+                    sfd.Filter = "Excel Workbook|*.xlsx";
+                    sfd.FileName = "HasilQuery.xlsx";
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        using (var workbook = new XLWorkbook())
+                        {
+                            workbook.Worksheets.Add(dt, "Data");
+                            workbook.SaveAs(sfd.FileName);
+                        }
+
+                        MessageBox.Show("✅ Berhasil diexport ke Excel!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Tidak ada data untuk diexport.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }

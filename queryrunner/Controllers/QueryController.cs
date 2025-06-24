@@ -28,7 +28,14 @@ namespace queryrunner.Controllers
         {
             _currentQuery = QueryBuilder.BuildWHPQuery(whereClause);
         }
-
+        public static void GenerateWELLLOGQuery(string whereClause, string type)
+        {
+            _currentQuery = QueryBuilder.BuildWELLLOGQuery(whereClause, type);
+        }
+        public static void GenerateWELLFILE(string whereClause, string type,string x)
+        {
+            _currentQuery = QueryBuilder.BuildWELLFILE(whereClause,type,x);
+        }
         public static int GetRowCount()
         {
             if (string.IsNullOrWhiteSpace(_currentQuery))
