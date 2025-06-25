@@ -1,4 +1,8 @@
-﻿using queryrunner.Controllers;
+﻿//'+----------------------------------+
+//'|  Created By  : M.Sultan AlFarid  |
+//'|  Created Date: 2025/06/12        |
+//'+----------------------------------+
+using queryrunner.Controllers;
 using queryrunner.Services;
 using System;
 using System.ComponentModel;
@@ -46,7 +50,6 @@ namespace queryrunner.Views
             this.toolStripBtnOpenRep.Click += new System.EventHandler(this.toolStripBtnOpenReppler_Click);
 
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             // Inisialisasi opsi query mode
@@ -100,9 +103,6 @@ namespace queryrunner.Views
             txtPort.Text = Properties.Settings.Default.OraclePort;
             txtService.Text = Properties.Settings.Default.OracleService;
         }
-
-        // Perbarui query jika mode WHP aktif
-        // Perbarui query otomatis jika isian berubah
         private void UpdateQueryIfAuto()
         {
             string whereClause = QueryBuilder.BuildWhereClause(cbWhereClause.Text, txtWhereValue.Text, cbQueryMode.Text);
@@ -135,7 +135,6 @@ namespace queryrunner.Views
             Properties.Settings.Default.OracleService = txtService.Text;
             Properties.Settings.Default.Save();
         }
-
         // Handle perubahan mode query
         private void cbQueryMode_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -160,7 +159,6 @@ namespace queryrunner.Views
                 QueryController.GenerateWELLFILE(whereClause, boxclause.Text, txtclause.Text);
             getquery.Text = QueryController.GetCurrentQuery();
         }
-
         // Tombol eksekusi query
         private void btnexecute_Click(object sender, EventArgs e)
         {
